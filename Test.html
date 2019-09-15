@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<HTML>
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
+    integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+    crossorigin="anonymous"
+  />
+  <div id="body">
+    <p id="begin">Press "enter" to start</p>
+    <p id="score">Score: 0</p>
+    <p id="space"></p>
+    <p id="input">Your answer:</p>
+    <table id="table2">
+      <tr id="row2"></tr>
+    </table>
+
+    <p id="space1"></p>
+    <button id="reset" onclick="HardResetFunction()">Reset</button>
+  </div>
+
+  <script>
+    let k = [];
+    let check = [];
+    let output = [];
+    let score = 0;
+
+    function random() {
+      return Math.floor(Math.random() * 4);
+    }
+
+    function removeElem(id) {
+      let elem = document.getElementById(id);
+      return elem.parentNode.removeChild(elem);
+    }
+    function startFunction() {
+      let table1 = document.createElement("table");
+      table1.setAttribute("id", "table1");
+      let row1 = document.createElement("tr");
+
+      for (let num = 0; num < 4; num++) {
+        let i = random();
+        if (i == 0) {
+          let right = document.createElement("i");
+          right.className = "fas fa-arrow-right";
+          row1.appendChild(right);
+          k.push("ArrowRight");
+        } else if (i == 1) {
+          let left = document.createElement("i");
+          left.className = "fas fa-arrow-left";
+          row1.appendChild(left);
+          k.push("ArrowLeft");
+        } else if (i == 2) {
+          let up = document.createElement("i");
+          up.className = "fas fa-arrow-up";
+          row1.appendChild(up);
+          k.push("ArrowUp");
+        } else if (i == 3) {
+          let down = document.createElement("i");
+          down.className = "fas fa-arrow-down";
+          row1.appendChild(down);
+          k.push("ArrowDown");
+        }
+      }
+      table1.appendChild(row1);
+      document.getElementById("space").appendChild(table1);
+    }
+
+    document.onkeydown = function myFunction(event) {
+      if (event.key == "Enter") {
+        removeElem("begin");
+        startFunction();
+      } else if (
+        event.key == "ArrowRight" ||
+        event.key == "ArrowLeft" ||
+        event.key == "ArrowUp" ||
+        event.key == "ArrowDown"
+      ) {
+        check.push(event.key);
+        if (event.key == "ArrowRight") {
+          let right = document.createElement("i");
+          right.className = "fas fa-arrow-right";
+          row2.appendChild(right);
+        } else if (event.key == "ArrowLeft") {
+          let left = document.createElement("i");
+          left.className = "fas fa-arrow-left";
+          row2.appendChild(left);
+        } else if (event.key == "ArrowUp") {
+          let up = document.createElement("i");
+          up.className = "fas fa-arrow-up";
+          row2.appendChild(up);
+        } else if (event.key == "ArrowDown") {
+          let down = document.createElement("i");
+          down.className = "fas fa-arrow-down";
+          row2.appendChild(down);
+        }
+        document.getElementById("table2").appendChild(row2);
+
+        let bool = true;
+        document.getElementById("space1").innerHTML = "";
+        console.log(check.length);
+        console.log(k.length);
+
+        if (check.length % 4 == 0) {
+          for (let y = 0; y < k.length; y++) {
+            if (check[y] != k[y]) {
+              bool = false;
+            }
+          }
+          if (bool == true) {
+            console.log(check);
+            document.getElementById("space1").innerHTML = "Correct!";
+            document.getElementById("score").innerHTML = "Score: " + ++score;
+            setTimeout(() => {
+              softResetFunction();
+            }, 250);
+          } else {
+            console.log(check);
+            document.getElementById("space1").innerHTML = "Try again!";
+            let row2 = document.getElementById("row2");
+            row2.innerHTML = "";
+            check = [];
+            setTimeout(() => {
+              document.getElementById("space1").innerHTML = "";
+            }, 250);
+          }
+        }
+      } else {
+        document.getElementById("space1").innerHTML =
+          "Please enter a valid input";
+        setTimeout(() => {
+          softResetFunction();
+        }, 250);
+      }
+    };
+
+    function softResetFunction() {
+      check = [];
+      k = [];
+      removeElem("table1");
+      let row2 = document.getElementById("row2");
+      row2.innerHTML = "";
+      document.getElementById("space1").innerHTML = "";
+      startFunction();
+    }
+
+    function hardResetFunction() {
+      check = [];
+      k = [];
+      removeElem("table1");
+      let row2 = document.getElementById("row2");
+      row2.innerHTML = "";
+      document.getElementById("space1").innerHTML = "";
+      document.getElementById("score").innerHTML = "Score: 0";
+      startFunction();
+    }
+  </script>
+</HTML>
