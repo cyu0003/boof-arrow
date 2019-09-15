@@ -98,8 +98,6 @@
 
         let bool = true;
         document.getElementById("space1").innerHTML = "";
-        console.log(check.length);
-        console.log(k.length);
 
         if (check.length % 4 == 0) {
           for (let y = 0; y < k.length; y++) {
@@ -108,14 +106,12 @@
             }
           }
           if (bool == true) {
-            console.log(check);
             document.getElementById("space1").innerHTML = "Correct!";
             document.getElementById("score").innerHTML = "Score: " + ++score;
             setTimeout(() => {
               softResetFunction();
             }, 250);
           } else {
-            console.log(check);
             document.getElementById("space1").innerHTML = "Try again!";
             let row2 = document.getElementById("row2");
             row2.innerHTML = "";
